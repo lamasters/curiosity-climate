@@ -38,8 +38,7 @@ rocky.on("draw", function (event) {
   ctx.textAlign = "center";
   ctx.font = "42px bold Bitham";
   ctx.fillText(
-    (d.getHours() < 10 ? "0" : "") +
-      d.getHours() +
+    (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()) +
       ":" +
       (d.getMinutes() < 10 ? "0" : "") +
       d.getMinutes(),
@@ -58,13 +57,13 @@ rocky.on("draw", function (event) {
   ctx.font = "18px bold Gothic";
   var offsetX = w / 2;
   var offsetY = 10;
-  var eclipseOffset = 10;
+  var orbitOffset = 10;
   var spacing = 16;
 
   // Adjust alignment if watchface is round
   if (rocky.watchInfo.platform == "chalk") {
     offsetY = 20;
-    eclipseOffset = 5;
+    orbitOffset = 5;
     ctx.fillText("sol: " + weather.sol, offsetX, h - (offsetY + spacing), w);
     ctx.fillText(
       "day: " + weather.sunrise + "-" + weather.sunset,
@@ -93,21 +92,19 @@ rocky.on("draw", function (event) {
     w
   );
 
-  if (d.getHours() <= 12) {
-    var xOffset = d.getHours() * 2 - 12;
+  var size = 8 + Math.sin((d.getMinutes() * 2 * Math.PI) / 60) * 6;
+  var x = w / 2 - Math.cos((d.getMinutes() * 2 * Math.PI) / 60) * 40;
+  if (Math.sin((d.getMinutes() * 2 * Math.PI) / 60) > 0) {
+    ctx.fillStyle = "white";
+    ctx.rockyFillRadial(w / 2, h / 2 + orbitOffset, 0, 18, 0, 2 * Math.PI);
+    ctx.fillStyle = "#b51300";
+    ctx.rockyFillRadial(x, h / 2 + orbitOffset, 0, size, 0, 2 * Math.PI);
   } else {
-    var xOffset = 12 - (d.getHours() - 12) * 2;
+    ctx.fillStyle = "#b51300";
+    ctx.rockyFillRadial(x, h / 2 + orbitOffset, 0, size, 0, 2 * Math.PI);
+    ctx.fillStyle = "white";
+    ctx.rockyFillRadial(w / 2, h / 2 + orbitOffset, 0, 18, 0, 2 * Math.PI);
   }
-  ctx.rockyFillRadial(
-    w / 2 + xOffset,
-    h / 2 + eclipseOffset,
-    0,
-    18,
-    0,
-    2 * Math.PI
-  );
-  ctx.fillStyle = "black";
-  ctx.rockyFillRadial(w / 2, h / 2 + eclipseOffset, 0, 17, 0, 2 * Math.PI);
 });
 
 rocky.on("minutechange", function (event) {
