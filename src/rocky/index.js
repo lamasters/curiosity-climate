@@ -38,10 +38,7 @@ rocky.on("draw", function (event) {
   ctx.textAlign = "center";
   ctx.font = "42px bold Bitham";
   ctx.fillText(
-    (d.getHours() > 12 ? d.getHours() - 12 : d.getHours()) +
-      ":" +
-      (d.getMinutes() < 10 ? "0" : "") +
-      d.getMinutes(),
+    d.getHours() + ":" + (d.getMinutes() < 10 ? "0" : "") + d.getMinutes(),
     w / 2,
     0,
     w
