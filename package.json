@@ -1,7 +1,7 @@
 {
   "name": "curiosity-climate",
   "author": "Liam Masters",
-  "version": "1.2.0",
+  "version": "1.21",
   "keywords": [
     "pebble-app"
   ],
@@ -20,7 +20,8 @@
     "targetPlatforms": [
       "basalt",
       "chalk",
-      "diorite"
+      "diorite",
+      "emery"
     ],
     "watchapp": {
       "watchface": true
